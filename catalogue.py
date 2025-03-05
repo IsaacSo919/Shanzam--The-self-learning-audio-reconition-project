@@ -1,5 +1,6 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify,send_from_directory
 import sqlite3
+
 
 app = Flask(__name__)
 
@@ -56,6 +57,11 @@ def list_tracks():
     conn.close()
 
     return jsonify(tracks), 200
+
+@app.route("/files/<filename>", methods=["GET"])
+def get_file(filename):
+    """Serve a music file if it exists."""
+    return send_from_directory("music_files", filename)
 
 if __name__ == "__main__":
     initialize_database()

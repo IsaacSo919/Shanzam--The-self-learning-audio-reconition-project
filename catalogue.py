@@ -3,8 +3,8 @@ import sqlite3
 
 app = Flask(__name__)
 
-# Create SQLite database if it doesn't exist
-def init_db():
+
+def initialize_database():
     conn = sqlite3.connect("music_catalogue.db")
     c = conn.cursor()
     c.execute("""
@@ -36,7 +36,7 @@ def add_track():
     return jsonify({"message": "Track added successfully"}), 201
 
 @app.route("/tracks/<int:track_id>", methods=["DELETE"])
-def remove_track(track_id):
+def delete_track(track_id):
     """Remove a track by ID."""
     conn = sqlite3.connect("music_catalogue.db")
     c = conn.cursor()
@@ -58,5 +58,5 @@ def list_tracks():
     return jsonify(tracks), 200
 
 if __name__ == "__main__":
-    init_db()
+    initialize_database()
     app.run(host="localhost", port=5001)

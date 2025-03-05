@@ -47,6 +47,16 @@ def delete_track(track_id):
 
     return jsonify({"message": "Track removed successfully"}), 200
 
+@app.route("/tracks", methods=["DELETE"])
+def remove_all_tracks():
+    """Delete all tracks from the catalogue."""
+    conn = sqlite3.connect("music_catalogue.db")
+    c = conn.cursor()
+    c.execute("DELETE FROM tracks")
+    conn.commit()
+    conn.close()
+    return jsonify({"message": "All tracks deleted successfully"}), 200
+
 @app.route("/tracks", methods=["GET"])
 def list_tracks():
     """List all tracks in the catalogue."""
